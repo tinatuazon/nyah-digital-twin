@@ -88,6 +88,3 @@ export function validateDigitalTwinInput(input: unknown): DigitalTwinQueryInput 
   const validatedQuestion = questionSchema.parse((input as any)?.question);
   return { question: validatedQuestion };
 }
-
-// Export types for TypeScript support
-export type { DigitalTwinQueryInput };
