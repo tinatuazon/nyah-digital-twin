@@ -1,0 +1,14 @@
+{
+  "name": "cristina-digital-twin-mcp",
+  "description": "Cristina Tuazon's Digital Twin RAG Assistant",
+  "mcpServers": {
+    "cristina-digital-twin": {
+      "command": "node",
+      "args": ["mcp-server.mjs"],
+      "cwd": "C:/Users/user/Desktop/bootcamp/week-6/digital-twin-workshop/digital-twin",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  }
+}
