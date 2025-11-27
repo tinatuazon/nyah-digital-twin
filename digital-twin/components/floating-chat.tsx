@@ -99,8 +99,8 @@ export function FloatingChat() {
 
       {/* Chat Window */}
       {isOpen && (
-        <Card className="fixed bottom-6 right-6 w-80 h-96 bg-zinc-900/95 border-zinc-700 backdrop-blur-sm z-50 flex flex-col shadow-2xl">
-          <CardHeader className="flex flex-row items-center justify-between p-4 border-b border-zinc-700">
+        <Card className="fixed bottom-6 right-6 w-80 h-96 bg-zinc-900/95 border-zinc-700 backdrop-blur-sm z-50 flex flex-col shadow-2xl overflow-hidden">
+          <CardHeader className="flex flex-row items-center justify-between p-4 border-b border-zinc-700 flex-shrink-0">
             <CardTitle className="text-sm text-white">Chat with Cristina's AI Twin</CardTitle>
             <Button
               onClick={() => setIsOpen(false)}
@@ -112,9 +112,9 @@ export function FloatingChat() {
             </Button>
           </CardHeader>
           
-          <CardContent className="flex-1 flex flex-col p-0">
+          <CardContent className="flex-1 flex flex-col p-0 min-h-0">
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-3 max-h-64">
+            <div className="flex-1 overflow-y-auto p-4 space-y-3 min-h-0">
               {messages.map((message, index) => (
                 <div
                   key={index}
@@ -149,30 +149,30 @@ export function FloatingChat() {
             </div>
 
             {/* Input Form */}
-            <form onSubmit={sendMessage} className="p-3 border-t border-zinc-700">
-              <div className="flex gap-2">
-                <Input
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  placeholder="Ask about Cristina..."
-                  className="flex-1 bg-zinc-800 border-zinc-700 text-white placeholder-zinc-400 text-sm h-8"
-                  disabled={isLoading}
-                />
-                <Button
-                  type="submit"
-                  disabled={isLoading || !input.trim()}
-                  size="icon"
-                  className="h-8 w-8 bg-blue-600 hover:bg-blue-700"
-                >
-                  <Send className="w-3 h-3" />
-                </Button>
-              </div>
-            </form>
+            <div className="p-3 border-t border-zinc-700 flex-shrink-0">
+              <form onSubmit={sendMessage} className="mb-2">
+                <div className="flex gap-2">
+                  <Input
+                    type="text"
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    placeholder="Ask about Cristina..."
+                    className="flex-1 bg-zinc-800 border-zinc-700 text-white placeholder-zinc-400 text-sm h-8"
+                    disabled={isLoading}
+                  />
+                  <Button
+                    type="submit"
+                    disabled={isLoading || !input.trim()}
+                    size="icon"
+                    className="h-8 w-8 bg-blue-600 hover:bg-blue-700"
+                  >
+                    <Send className="w-3 h-3" />
+                  </Button>
+                </div>
+              </form>
 
-            {/* Quick Questions */}
-            <div className="p-3 pt-0">
-              <div className="flex flex-wrap gap-1">
+              {/* Quick Questions */}
+              <div className="flex flex-wrap gap-1 justify-center">
                 {[
                   "Experience?",
                   "Skills?",
@@ -183,7 +183,7 @@ export function FloatingChat() {
                     onClick={() => setInput(suggestion.replace("?", ""))}
                     variant="outline"
                     size="sm"
-                    className="h-6 px-2 text-xs bg-zinc-800 border-zinc-700 text-zinc-300 hover:bg-zinc-700"
+                    className="h-6 px-2 text-xs bg-zinc-800 border-zinc-700 text-zinc-300 hover:bg-zinc-700 flex-shrink-0"
                     disabled={isLoading}
                   >
                     {suggestion}
