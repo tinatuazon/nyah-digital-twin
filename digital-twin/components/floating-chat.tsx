@@ -1,10 +1,12 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { MessageCircle, X, Send } from "lucide-react"
+import { useTheme } from "next-themes"
+import { MessageCircle, X, Send, Sun, Moon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+
 
 interface Message {
   role: "user" | "assistant"
@@ -14,6 +16,7 @@ interface Message {
 
 export function FloatingChat() {
   const [isOpen, setIsOpen] = useState(false)
+  const { theme = 'dark', setTheme } = useTheme()
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
@@ -99,22 +102,38 @@ export function FloatingChat() {
 
       {/* Chat Window */}
       {isOpen && (
-        <Card className="fixed bottom-6 right-6 w-80 h-96 bg-zinc-900/95 border-zinc-700 backdrop-blur-sm z-50 flex flex-col shadow-2xl overflow-hidden">
-          <CardHeader className="flex flex-row items-center justify-between p-4 border-b border-zinc-700 flex-shrink-0">
-            <CardTitle className="text-sm text-white">Chat with Cristina's AI Twin</CardTitle>
-            <Button
-              onClick={() => setIsOpen(false)}
-              variant="ghost"
-              size="icon"
-              className="h-6 w-6 text-zinc-400 hover:text-white"
-            >
-              <X className="w-4 h-4" />
-            </Button>
+        <Card
+          className={`fixed bottom-6 right-6 w-[25rem] h-[32rem] z-50 flex flex-col shadow-2xl overflow-hidden border backdrop-blur-sm
+            ${theme === 'dark' ? 'bg-zinc-900/95 border-zinc-700' : 'bg-white border-zinc-200'}`}
+        >
+          <CardHeader className={`flex flex-row items-center justify-between p-4 border-b flex-shrink-0
+            ${theme === 'dark' ? 'border-zinc-700' : 'border-zinc-200'}`}
+          >
+            <CardTitle className={`text-sm ${theme === 'dark' ? 'text-white' : 'text-zinc-900'}`}>Chat with Cristina's AI Twin</CardTitle>
+            <div className="flex gap-1 items-center">
+              <Button
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                variant="ghost"
+                size="icon"
+                className={theme === 'dark' ? 'text-yellow-300 hover:text-yellow-400' : 'text-blue-600 hover:text-blue-700'}
+                aria-label="Toggle theme"
+              >
+                {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              </Button>
+              <Button
+                onClick={() => setIsOpen(false)}
+                variant="ghost"
+                size="icon"
+                className={theme === 'dark' ? 'h-6 w-6 text-zinc-400 hover:text-white' : 'h-6 w-6 text-zinc-500 hover:text-zinc-900'}
+              >
+                <X className="w-4 h-4" />
+              </Button>
+            </div>
           </CardHeader>
           
           <CardContent className="flex-1 flex flex-col p-0 min-h-0">
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-3 min-h-0">
+            <div className={`flex-1 overflow-y-auto p-4 space-y-3 min-h-0 ${theme === 'dark' ? '' : 'bg-zinc-50'}`}> 
               {messages.map((message, index) => (
                 <div
                   key={index}
@@ -123,8 +142,12 @@ export function FloatingChat() {
                   <div
                     className={`max-w-[80%] px-3 py-2 rounded-lg text-sm ${
                       message.role === "user"
-                        ? "bg-blue-600 text-white"
-                        : "bg-zinc-800 text-zinc-100"
+                        ? theme === 'dark'
+                          ? 'bg-blue-600 text-white'
+                          : 'bg-blue-500 text-white'
+                        : theme === 'dark'
+                          ? 'bg-zinc-800 text-zinc-100'
+                          : 'bg-zinc-200 text-zinc-900'
                     }`}
                   >
                     <p className="whitespace-pre-wrap">{message.content}</p>
@@ -134,11 +157,11 @@ export function FloatingChat() {
               
               {isLoading && (
                 <div className="flex justify-start">
-                  <div className="bg-zinc-800 px-3 py-2 rounded-lg">
+                  <div className={theme === 'dark' ? 'bg-zinc-800 px-3 py-2 rounded-lg' : 'bg-zinc-200 px-3 py-2 rounded-lg'}>
                     <div className="flex space-x-1">
-                      <div className="w-2 h-2 bg-zinc-400 rounded-full animate-bounce"></div>
-                      <div className="w-2 h-2 bg-zinc-400 rounded-full animate-bounce" style={{ animationDelay: "0.1s" }}></div>
-                      <div className="w-2 h-2 bg-zinc-400 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
+                      <div className={theme === 'dark' ? 'w-2 h-2 bg-zinc-400 rounded-full animate-bounce' : 'w-2 h-2 bg-zinc-500 rounded-full animate-bounce'}></div>
+                      <div className={theme === 'dark' ? 'w-2 h-2 bg-zinc-400 rounded-full animate-bounce' : 'w-2 h-2 bg-zinc-500 rounded-full animate-bounce'} style={{ animationDelay: "0.1s" }}></div>
+                      <div className={theme === 'dark' ? 'w-2 h-2 bg-zinc-400 rounded-full animate-bounce' : 'w-2 h-2 bg-zinc-500 rounded-full animate-bounce'} style={{ animationDelay: "0.2s" }}></div>
                     </div>
                   </div>
                 </div>
@@ -149,7 +172,7 @@ export function FloatingChat() {
             </div>
 
             {/* Input Form */}
-            <div className="p-3 border-t border-zinc-700 flex-shrink-0">
+            <div className={`p-3 border-t flex-shrink-0 ${theme === 'dark' ? 'border-zinc-700' : 'border-zinc-200 bg-white'}`}>
               <form onSubmit={sendMessage} className="mb-2">
                 <div className="flex gap-2">
                   <Input
@@ -157,14 +180,14 @@ export function FloatingChat() {
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     placeholder="Ask about Cristina..."
-                    className="flex-1 bg-zinc-800 border-zinc-700 text-white placeholder-zinc-400 text-sm h-8"
+                    className={`flex-1 text-sm h-8 ${theme === 'dark' ? 'bg-zinc-800 border-zinc-700 text-white placeholder-zinc-400' : 'bg-zinc-100 border-zinc-300 text-zinc-900 placeholder-zinc-400'}`}
                     disabled={isLoading}
                   />
                   <Button
                     type="submit"
                     disabled={isLoading || !input.trim()}
                     size="icon"
-                    className="h-8 w-8 bg-blue-600 hover:bg-blue-700"
+                    className={theme === 'dark' ? 'h-8 w-8 bg-blue-600 hover:bg-blue-700' : 'h-8 w-8 bg-blue-500 hover:bg-blue-600'}
                   >
                     <Send className="w-3 h-3" />
                   </Button>
@@ -183,7 +206,7 @@ export function FloatingChat() {
                     onClick={() => setInput(suggestion.replace("?", ""))}
                     variant="outline"
                     size="sm"
-                    className="h-6 px-2 text-xs bg-zinc-800 border-zinc-700 text-zinc-300 hover:bg-zinc-700 flex-shrink-0"
+                    className={`h-6 px-2 text-xs flex-shrink-0 ${theme === 'dark' ? 'bg-zinc-800 border-zinc-700 text-zinc-300 hover:bg-zinc-700' : 'bg-zinc-100 border-zinc-300 text-zinc-700 hover:bg-zinc-200'}`}
                     disabled={isLoading}
                   >
                     {suggestion}

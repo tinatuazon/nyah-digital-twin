@@ -1,3 +1,4 @@
+
 import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
@@ -6,6 +7,7 @@ import { ScrollProgressIndicator } from "@/components/scroll-progress-indicator"
 import { AnimationProvider } from "@/contexts/animation-context"
 import { FloatingChat } from "@/components/floating-chat"
 import { getMetaInfo } from "@/lib/data"
+import { ThemeProvider } from "@/components/theme-provider"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -25,11 +27,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AnimationProvider>
-          <ScrollProgressIndicator />
-          {children}
-          <FloatingChat />
-        </AnimationProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <AnimationProvider>
+            <ScrollProgressIndicator />
+            {children}
+            <FloatingChat />
+          </AnimationProvider>
+        </ThemeProvider>
       </body>
     </html>
   )
