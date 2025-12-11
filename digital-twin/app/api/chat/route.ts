@@ -46,7 +46,7 @@ export async function GET() {
     message: "Chat API is working",
     usage: "POST a JSON object with 'question' field to get AI response",
     example: {
-      question: "What are Cristina's technical skills?"
+      question: "What are Nyah's technical skills?"
     }
   });
 }

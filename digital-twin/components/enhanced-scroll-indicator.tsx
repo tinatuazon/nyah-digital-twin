@@ -48,15 +48,17 @@ export function EnhancedScrollIndicator() {
       <div className="flex flex-col items-center">
         {/* Circular progress indicator */}
         <div
-          className="relative w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-zinc-900/80 backdrop-blur-sm cursor-pointer hover:bg-zinc-800/80 transition-colors"
+          className="relative w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/90 dark:bg-zinc-900/80 backdrop-blur-sm cursor-pointer hover:bg-gray-100 dark:hover:bg-zinc-800/80 transition-colors border border-gray-200 dark:border-zinc-700"
           onClick={scrollToTop}
           role="button"
           aria-label="Scroll to top"
         >
           {/* Progress circle */}
           <svg className="w-10 h-10 sm:w-12 sm:h-12 absolute top-0 left-0 -rotate-90">
-            <circle cx="20" cy="20" r="18" fill="none" stroke="#27272a" strokeWidth="2" className="sm:hidden" />
-            <circle cx="24" cy="24" r="20" fill="none" stroke="#27272a" strokeWidth="2" className="hidden sm:block" />
+            <circle cx="20" cy="20" r="18" fill="none" stroke="#e5e7eb" strokeWidth="2" className="sm:hidden dark:hidden" />
+            <circle cx="24" cy="24" r="20" fill="none" stroke="#e5e7eb" strokeWidth="2" className="hidden sm:block dark:hidden" />
+            <circle cx="20" cy="20" r="18" fill="none" stroke="#27272a" strokeWidth="2" className="hidden dark:block sm:dark:hidden" />
+            <circle cx="24" cy="24" r="20" fill="none" stroke="#27272a" strokeWidth="2" className="hidden dark:sm:block" />
             <circle
               cx="20"
               cy="20"
@@ -67,7 +69,7 @@ export function EnhancedScrollIndicator() {
               strokeDasharray={`${2 * Math.PI * 18}`}
               strokeDashoffset={`${2 * Math.PI * 18 * (1 - scrollProgress)}`}
               strokeLinecap="round"
-              className="sm:hidden"
+              className="sm:hidden dark:hidden"
             />
             <circle
               cx="24"
@@ -79,10 +81,38 @@ export function EnhancedScrollIndicator() {
               strokeDasharray={`${2 * Math.PI * 20}`}
               strokeDashoffset={`${2 * Math.PI * 20 * (1 - scrollProgress)}`}
               strokeLinecap="round"
-              className="hidden sm:block"
+              className="hidden sm:block dark:hidden"
+            />
+            <circle
+              cx="20"
+              cy="20"
+              r="18"
+              fill="none"
+              stroke="url(#gradient-dark)"
+              strokeWidth="2"
+              strokeDasharray={`${2 * Math.PI * 18}`}
+              strokeDashoffset={`${2 * Math.PI * 18 * (1 - scrollProgress)}`}
+              strokeLinecap="round"
+              className="hidden dark:block sm:dark:hidden"
+            />
+            <circle
+              cx="24"
+              cy="24"
+              r="20"
+              fill="none"
+              stroke="url(#gradient-dark)"
+              strokeWidth="2"
+              strokeDasharray={`${2 * Math.PI * 20}`}
+              strokeDashoffset={`${2 * Math.PI * 20 * (1 - scrollProgress)}`}
+              strokeLinecap="round"
+              className="hidden dark:sm:block"
             />
             <defs>
               <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#2563eb" className="dark:hidden" />
+                <stop offset="100%" stopColor="#2563eb" className="dark:hidden" />
+              </linearGradient>
+              <linearGradient id="gradient-dark" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" stopColor="#22d3ee" />
                 <stop offset="100%" stopColor="#22d3ee" />
               </linearGradient>
@@ -91,12 +121,12 @@ export function EnhancedScrollIndicator() {
 
           {/* Percentage text */}
           <div className="absolute inset-0 flex items-center justify-center">
-            <ChevronUp className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 dark:text-[#22d3ee]" />
+            <ChevronUp className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 dark:text-cyan-400" />
           </div>
         </div>
 
         {/* Percentage label */}
-        <div className="mt-1 sm:mt-2 text-xs font-medium bg-zinc-900/80 backdrop-blur-sm text-white px-2 py-1 rounded-md">
+        <div className="mt-1 sm:mt-2 text-xs font-medium bg-white/90 dark:bg-zinc-900/80 backdrop-blur-sm text-gray-900 dark:text-white px-2 py-1 rounded-md border border-gray-200 dark:border-zinc-700">
           {progressPercentage}%
         </div>
       </div>

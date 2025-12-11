@@ -22,247 +22,159 @@ export default function Home() {
   const technicalSkills = getTechnicalSkillsInfo()
 
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-background text-foreground">
-      {/* Subtle gradient background for depth */}
-      <div className="fixed inset-0 bg-gradient-to-br from-slate-50 to-gray-100 dark:from-background dark:to-background z-0"></div>
+    <main className="min-h-screen bg-white dark:bg-zinc-950 text-foreground">
+      {/* Clean minimalist background */}
+      <div className="fixed inset-0 bg-white dark:bg-zinc-950 z-0"></div>
 
       {/* Header */}
       <PortfolioHeader />
 
-      <div className="relative z-10 container mx-auto p-3 sm:p-4 pt-20 sm:pt-24 pb-6 sm:pb-8">
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-          {/* Enhanced Profile Section */}
-          <div className="md:sticky md:top-24 self-start">
-            <AnimatedSection animation="slide-right">
-              <EnhancedProfile />
-            </AnimatedSection>
-          </div>
+      <div className="relative z-10">
+        {/* Hero Section */}
+        <section className="container mx-auto px-4 pt-32 pb-20 min-h-[80vh] flex items-center">
+          <AnimatedSection animation="fade-up" className="max-w-4xl">
+            <div className="space-y-6">
+              <div className="inline-block">
+                <span className="text-sm font-medium text-blue-600 dark:text-cyan-400 tracking-wide uppercase">AI & Robotics Specialist</span>
+              </div>
+              <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight">
+                <span className="block text-gray-900 dark:text-white">Nyah</span>
+                <span className="block text-gray-900 dark:text-white">Ostonal</span>
+              </h1>
+              <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-400 max-w-2xl">
+                4th year IT student at St. Paul University Philippines, passionate about building intelligent robotics systems and AI applications.
+              </p>
+              <div className="flex gap-4 pt-4">
+                <Button size="lg" className="bg-blue-600 hover:bg-blue-700 dark:bg-cyan-400 dark:hover:bg-cyan-300 dark:text-black text-white rounded-full px-8">
+                  View Projects
+                </Button>
+                <Button size="lg" variant="outline" className="rounded-full px-8 border-2">
+                  Contact Me
+                </Button>
+              </div>
+            </div>
+          </AnimatedSection>
+        </section>
 
-          <div className="col-span-1 md:col-span-2 lg:col-span-3 space-y-4 sm:space-y-6">
-            {/* Experience Section - Expanded */}
-            <AnimatedSection animation="fade-up" id="experience">
-              <Card className="bg-white/90 dark:bg-card/70 border border-gray-200 dark:border-border backdrop-blur-sm shadow-sm">
-                <CardContent className="p-4 sm:p-6">
-                  <div className="flex items-center mb-4 sm:mb-6">
-                    <BriefcaseIcon className="w-5 h-5 mr-2 text-blue-600 dark:text-[#22d3ee]" />
-                    <h3 className="text-lg font-medium">Experience</h3>
+        {/* Main Content */}
+        <div className="container mx-auto px-4 pb-20 space-y-32">
+
+          {/* Projects Section */}
+          <AnimatedSection animation="fade-up" id="projects">
+            <div className="space-y-8">
+              <div>
+                <span className="text-sm font-medium text-gray-500 dark:text-gray-400 tracking-wide uppercase">Featured Work</span>
+                <h2 className="text-4xl md:text-5xl font-bold mt-2 text-gray-900 dark:text-white">Projects</h2>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {projects.slice(0, 4).map((project, index) => (
+                  <AnimatedSection key={project.slug} animation="fade-up" delay={100 * (index + 1)}>
+                    <ProjectCard project={project} />
+                  </AnimatedSection>
+                ))}
+              </div>
+            </div>
+          </AnimatedSection>
+
+          {/* Skills Section */}
+          <AnimatedSection animation="fade-up" id="skills">
+            <div className="space-y-8">
+              <div>
+                <span className="text-sm font-medium text-gray-500 dark:text-gray-400 tracking-wide uppercase">Expertise</span>
+                <h2 className="text-4xl md:text-5xl font-bold mt-2 text-gray-900 dark:text-white">Skills</h2>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="p-8 rounded-3xl border border-gray-200 dark:border-zinc-800 hover:border-blue-600 dark:hover:border-cyan-400 transition-all duration-300">
+                  <CodeIcon className="w-8 h-8 mb-4 text-blue-600 dark:text-cyan-400" />
+                  <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white">AI & Machine Learning</h3>
+                  <p className="text-gray-600 dark:text-gray-400">TensorFlow, PyTorch, OpenCV, YOLO, Computer Vision, NLP</p>
+                </div>
+                <div className="p-8 rounded-3xl border border-gray-200 dark:border-zinc-800 hover:border-blue-600 dark:hover:border-cyan-400 transition-all duration-300">
+                  <GlobeIcon className="w-8 h-8 mb-4 text-blue-600 dark:text-cyan-400" />
+                  <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Robotics</h3>
+                  <p className="text-gray-600 dark:text-gray-400">Arduino, Raspberry Pi, ROS, Servo Motors, Sensor Integration</p>
+                </div>
+                <div className="p-8 rounded-3xl border border-gray-200 dark:border-zinc-800 hover:border-blue-600 dark:hover:border-cyan-400 transition-all duration-300">
+                  <BriefcaseIcon className="w-8 h-8 mb-4 text-blue-600 dark:text-cyan-400" />
+                  <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Development</h3>
+                  <p className="text-gray-600 dark:text-gray-400">Python, C++, JavaScript, Git, Jupyter, VS Code</p>
+                </div>
+              </div>
+            </div>
+          </AnimatedSection>
+
+          {/* About Section */}
+          <AnimatedSection animation="fade-up" id="about">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+              <div className="space-y-6">
+                <div>
+                  <span className="text-sm font-medium text-gray-500 dark:text-gray-400 tracking-wide uppercase">About Me</span>
+                  <h2 className="text-4xl md:text-5xl font-bold mt-2 text-gray-900 dark:text-white">Student & Innovator</h2>
+                </div>
+                <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
+                  Currently pursuing my Bachelor's degree in Information Technology with a specialization in AI & Robotics at St. Paul University Philippines. I'm passionate about creating intelligent systems that bridge the gap between artificial intelligence and physical robotics.
+                </p>
+                <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
+                  Through coursework and personal projects, I've developed skills in computer vision, machine learning, and robotics control systems. I'm always eager to learn and apply cutting-edge technologies to solve real-world problems.
+                </p>
+              </div>
+              <div className="space-y-6">
+                <div className="p-6 rounded-2xl bg-gray-50 dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800">
+                  <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Education</h3>
+                  <div className="space-y-2">
+                    <p className="text-gray-900 dark:text-white font-medium">Bachelor of Information Technology</p>
+                    <p className="text-gray-600 dark:text-gray-400">Major in AI & Robotics Track</p>
+                    <p className="text-gray-600 dark:text-gray-400">St. Paul University Philippines</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-500">4th Year • Expected 2026</p>
                   </div>
-
-                  <div className="relative flex">
-                    {/* Timeline vertical line */}
-                    <div className="absolute left-3 top-0 bottom-0 w-0.5 bg-blue-500 dark:bg-[#22d3ee] z-0" style={{marginLeft: '0.25rem'}}></div>
-                    <div className="flex-1 space-y-6 sm:space-y-8">
-                      {experienceInfo.map((experience, index) => (
-                        <AnimatedSection key={index} animation="fade-up" delay={100 * (index + 1)}>
-                          <ExperienceCard
-                            index={index}
-                            title={experience.title}
-                            company={experience.company}
-                            period={experience.period}
-                            description={experience.description}
-                            achievements={experience.achievements}
-                            technologies={experience.technologies}
-                          />
-                        </AnimatedSection>
-                      ))}
-                    </div>
+                </div>
+                <div className="p-6 rounded-2xl bg-gray-50 dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800">
+                  <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Status</h3>
+                  <div className="space-y-2">
+                    <p className="text-gray-600 dark:text-gray-400">🎓 Full-time student</p>
+                    <p className="text-gray-600 dark:text-gray-400">💼 Open to internships</p>
+                    <p className="text-gray-600 dark:text-gray-400">🔬 Active in research projects</p>
                   </div>
-                </CardContent>
-              </Card>
-            </AnimatedSection>
+                </div>
+              </div>
+            </div>
+          </AnimatedSection>
 
-            {/* Credentials Section */}
-            <AnimatedSection animation="fade-up" id="credentials">
-              <CredentialsSection />
-            </AnimatedSection>
-
-            {/* Skills Section */}
-            <AnimatedSection animation="fade-up" id="skills">
-              <Card className="bg-white/90 dark:bg-card/70 border border-gray-200 dark:border-border backdrop-blur-sm shadow-sm">
-                <CardContent className="p-4 sm:p-6">
-                  <div className="flex items-center mb-4">
-                    <CodeIcon className="w-5 h-5 mr-2 text-blue-600 dark:text-[#22d3ee]" />
-                    <h3 className="text-lg font-medium">Technical Skills</h3>
-                  </div>
-
-                  {/* Only Tech Stack Experience Progress Bars - Categorized */}
-
-                  {/* Tech Stack Experience Progress Bars - Categorized */}
-                  <div className="mt-6">
-                    {/* Removed Tech Stack Experience heading as requested */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                      {/* Development */}
-                      <div className="rounded-2xl p-4 border border-gray-200 dark:border-gray-700 bg-white dark:bg-zinc-900 shadow-sm hover:shadow-md transition-all duration-200 hover:ring-2 hover:ring-blue-300/40">
-                        <div className="flex items-center mb-2 rounded-xl bg-blue-600 dark:bg-[#22d3ee] px-3 py-1.5 shadow">
-                          <CodeIcon className="w-4 h-4 mr-2 text-white dark:text-black" />
-                          <span className="text-sm font-normal text-white dark:text-black">Development</span>
-                        </div>
-                        <hr className="border-border mb-2" />
-                        <div className="space-y-3">
-                          {[
-                            { name: 'HTML5', years: 5 },
-                            { name: 'JavaScript', years: 4 },
-                            { name: 'CSS3', years: 4 },
-                            { name: 'PHP', years: 3 },
-                            { name: 'Laravel', years: 3 },
-                            { name: 'Python', years: 2 },
-                            { name: 'React', years: 2 },
-                            { name: 'Next.js', years: 1 },
-                            { name: 'TypeScript', years: 1 },
-                          ].map((tech, idx) => (
-                            <div key={idx} className="space-y-1">
-                              <div className="flex justify-between items-center">
-                                <span className="text-sm text-foreground font-medium">{tech.name}</span>
-                                <span className="text-xs text-muted-foreground">{tech.years} yr{tech.years !== 1 ? 's' : ''}</span>
-                              </div>
-                              <div className="h-2 bg-muted rounded-xl overflow-hidden">
-                                <div
-                                  className="h-full bg-blue-600 dark:bg-[#22d3ee] rounded-xl transition-all duration-200"
-                                  style={{ width: `${Math.min(tech.years * 20, 100)}%` }}
-                                ></div>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                      {/* Database & Storage */}
-                      <div className="rounded-2xl p-4 border border-gray-200 dark:border-gray-700 bg-white dark:bg-zinc-900 shadow-md hover:shadow-lg transition-all duration-200 hover:ring-2 hover:ring-blue-300/40">
-                        <div className="flex items-center mb-2 rounded-xl bg-blue-600 dark:bg-[#22d3ee] px-3 py-1.5 shadow">
-                          <CodeIcon className="w-4 h-4 mr-2 text-white dark:text-black" />
-                          <span className="text-sm font-normal text-white dark:text-black">Database & Storage</span>
-                        </div>
-                        <hr className="border-border mb-2" />
-                        <div className="space-y-3">
-                          {[
-                            { name: 'MySQL', years: 4 },
-                            { name: 'Database Design', years: 4 },
-                            { name: 'SQL Server', years: 1 },
-                            { name: 'T-SQL', years: 1 },
-                            { name: 'PostgreSQL', years: 0.3 },
-                          ].map((tech, idx) => (
-                            <div key={idx} className="space-y-1">
-                              <div className="flex justify-between items-center">
-                                <span className="text-sm text-foreground font-medium">{tech.name}</span>
-                                <span className="text-xs text-muted-foreground">{tech.years} yr{tech.years !== 1 ? 's' : ''}</span>
-                              </div>
-                              <div className="h-1.5 bg-muted rounded-full overflow-hidden">
-                                <div
-                                  className="h-full bg-blue-600 dark:bg-[#22d3ee] rounded-full"
-                                  style={{ width: `${Math.min(tech.years * 20, 100)}%` }}
-                                ></div>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                      {/* Cloud & DevOps */}
-                      <div className="rounded-2xl p-4 border border-gray-200 dark:border-gray-700 bg-white dark:bg-zinc-900 shadow-md hover:shadow-lg transition-all duration-200 hover:ring-2 hover:ring-blue-300/40">
-                        <div className="flex items-center mb-2 rounded-xl bg-blue-600 dark:bg-[#22d3ee] px-3 py-1.5 shadow">
-                          <CodeIcon className="w-4 h-4 mr-2 text-white dark:text-black" />
-                          <span className="text-sm font-normal text-white dark:text-black">Cloud & DevOps</span>
-                        </div>
-                        <hr className="border-border mb-2" />
-                        <div className="space-y-3">
-                          {[
-                            { name: 'Google Cloud Platform', years: 1 },
-                            { name: 'cPanel', years: 1 },
-                            { name: 'AWS', years: 0.3 },
-                            { name: 'Vercel', years: 0.3 },
-                            { name: 'NeonDB', years: 0.3 },
-                          ].map((tech, idx) => (
-                            <div key={idx} className="space-y-1">
-                              <div className="flex justify-between items-center">
-                                <span className="text-sm text-foreground font-medium">{tech.name}</span>
-                                <span className="text-xs text-muted-foreground">{tech.years} yr{tech.years !== 1 ? 's' : ''}</span>
-                              </div>
-                              <div className="h-1.5 bg-muted rounded-full overflow-hidden">
-                                <div
-                                  className="h-full bg-blue-600 dark:bg-[#22d3ee] rounded-full"
-                                  style={{ width: `${Math.min(tech.years * 20, 100)}%` }}
-                                ></div>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                      {/* AI & Machine Learning */}
-                      <div className="rounded-2xl p-4 border border-gray-200 dark:border-gray-700 bg-white dark:bg-zinc-900 shadow-md hover:shadow-lg transition-all duration-200 hover:ring-2 hover:ring-blue-300/40">
-                        <div className="flex items-center mb-2 rounded-xl bg-blue-600 dark:bg-[#22d3ee] px-3 py-1.5 shadow">
-                          <CodeIcon className="w-4 h-4 mr-2 text-white dark:text-black" />
-                          <span className="text-sm font-normal text-white dark:text-black">AI & Machine Learning</span>
-                        </div>
-                        <hr className="border-border mb-2" />
-                        <div className="space-y-3">
-                          {[
-                            { name: 'OpenAI API', years: 0.5 },
-                            { name: 'Prompt Engineering', years: 0.5 },
-                            { name: 'Groq API', years: 0.3 },
-                            { name: 'Vector Databases', years: 0.3 },
-                            { name: 'RAG Systems', years: 0.3 },
-                            { name: 'Upstash Vector', years: 0.3 },
-                          ].map((tech, idx) => (
-                            <div key={idx} className="space-y-1">
-                              <div className="flex justify-between items-center">
-                                <span className="text-sm text-foreground font-medium">{tech.name}</span>
-                                <span className="text-xs text-muted-foreground">{tech.years} yr{tech.years !== 1 ? 's' : ''}</span>
-                              </div>
-                              <div className="h-1.5 bg-muted rounded-full overflow-hidden">
-                                <div
-                                  className="h-full bg-blue-600 dark:bg-[#22d3ee] rounded-full"
-                                  style={{ width: `${Math.min(tech.years * 20, 100)}%` }}
-                                ></div>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </AnimatedSection>
-
-            {/* Projects Section */}
-            <AnimatedSection animation="fade-up" id="projects">
-              <Card className="bg-white/90 dark:bg-card/70 border border-gray-200 dark:border-border backdrop-blur-sm shadow-sm">
-                <CardContent className="p-4 sm:p-6">
-                  <div className="flex items-center justify-between mb-4 sm:mb-6">
-                    <div className="flex items-center">
-                      <GlobeIcon className="w-5 h-5 mr-2 text-blue-600 dark:text-[#22d3ee]" />
-                      <h3 className="text-lg font-medium">Recent Projects</h3>
-                    </div>
-                    <Button variant="ghost" size="sm" className="text-xs sm:text-sm px-2 sm:px-3">
-                      View All
-                    </Button>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-                    {projects.map((project, index) => (
-                      <AnimatedSection key={project.id} animation="zoom-in" delay={100 * (index + 1)}>
-                        <ProjectCard
-                          title={project.title}
-                          category={project.category}
-                          image={project.thumbnailImage}
-                          slug={project.slug}
-                        />
-                      </AnimatedSection>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </AnimatedSection>
-          </div>
+          {/* Contact Section */}
+          <AnimatedSection animation="fade-up" id="contact">
+            <div className="text-center space-y-8 py-20">
+              <div>
+                <span className="text-sm font-medium text-gray-500 dark:text-gray-400 tracking-wide uppercase">Get In Touch</span>
+                <h2 className="text-4xl md:text-5xl font-bold mt-2 text-gray-900 dark:text-white">Let's Connect</h2>
+              </div>
+              <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                Interested in collaborating on AI & Robotics projects? Feel free to reach out!
+              </p>
+              <div className="flex gap-4 justify-center">
+                <Button size="lg" className="bg-blue-600 hover:bg-blue-700 dark:bg-cyan-400 dark:hover:bg-cyan-300 dark:text-black text-white rounded-full px-8">
+                  Email Me
+                </Button>
+                <Button size="lg" variant="outline" className="rounded-full px-8 border-2">
+                  LinkedIn
+                </Button>
+              </div>
+            </div>
+          </AnimatedSection>
         </div>
 
         {/* Footer */}
-        <AnimatedSection
-          animation="fade-in"
-          delay={500}
-          className="mt-8 sm:mt-12 py-4 sm:py-6 text-center text-xs sm:text-sm text-muted-foreground"
-        >
-          <p>© {new Date().getFullYear()} Cristina Tuazon. All rights reserved.</p>
-        </AnimatedSection>
+        <footer className="border-t border-gray-200 dark:border-zinc-800 py-12">
+          <div className="container mx-auto px-4">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+              <p className="text-gray-600 dark:text-gray-400">© {new Date().getFullYear()} Nyah Ostonal. All rights reserved.</p>
+              <div className="flex gap-6">
+                <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">GitHub</a>
+                <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">LinkedIn</a>
+                <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">Email</a>
+              </div>
+            </div>
+          </div>
+        </footer>
       </div>
 
       {/* Scroll to Top Button */}

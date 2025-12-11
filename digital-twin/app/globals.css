@@ -4,61 +4,49 @@
 
 
 :root {
-  --background: 0 0% 0%; /* Pure black like reference */
-  --foreground: 0 0% 100%;
-  --card: 240 4% 11%; /* zinc-900/70 equivalent */
-  --card-foreground: 0 0% 100%;
-  --popover: 240 4% 11%;
-  --popover-foreground: 0 0% 100%;
-  --primary: 186 100% 56%; /* #22d3ee exact color */
-  --primary-foreground: 0 0% 0%;
-  --secondary: 240 4% 16%; /* zinc-800/50 equivalent */
-  --secondary-foreground: 0 0% 100%;
-  --muted: 240 4% 16%;
-  --muted-foreground: 240 4% 64%;
-  --accent: 240 4% 16%;
-  --accent-foreground: 0 0% 100%;
-  --destructive: 0 84% 60%;
-  --destructive-foreground: 0 0% 100%;
-  --border: 240 4% 27%; /* zinc-700 equivalent */
-  --input: 240 4% 27%;
-  --ring: 186 100% 56%;
-  --success: 142 71% 45%;
-  --success-foreground: 0 0% 100%;
-  --warning: 38 92% 50%;
-  --warning-foreground: 220 13% 9%;
-  --info: 186 100% 56%;
-  --info-foreground: 0 0% 0%;
-}
-
-body.light, 
-.light, 
-[data-theme="light"] {
-  --background: 0 0% 100%;
-  --foreground: 220 13% 9%;
+  --background: 0 0% 100%; /* White background for light mode */
+  --foreground: 0 0% 9%;
   --card: 0 0% 100%;
-  --card-foreground: 220 13% 9%;
+  --card-foreground: 0 0% 9%;
   --popover: 0 0% 100%;
-  --popover-foreground: 220 13% 9%;
-  --primary: 221 83% 53%;
+  --popover-foreground: 0 0% 9%;
+  --primary: 221 83% 53%; /* Blue for light mode */
   --primary-foreground: 0 0% 100%;
   --secondary: 220 14% 96%;
-  --secondary-foreground: 220 13% 9%;
+  --secondary-foreground: 0 0% 9%;
   --muted: 220 13% 95%;
-  --muted-foreground: 220 13% 30%;
+  --muted-foreground: 0 0% 40%;
   --accent: 220 14% 96%;
-  --accent-foreground: 220 13% 9%;
+  --accent-foreground: 0 0% 9%;
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 100%;
   --border: 220 13% 91%;
   --input: 220 13% 91%;
   --ring: 221 83% 53%;
-  --success: 142 71% 45%;
-  --success-foreground: 0 0% 100%;
-  --warning: 38 92% 50%;
-  --warning-foreground: 0 0% 100%;
-  --info: 199 89% 48%;
-  --info-foreground: 0 0% 100%;
+}
+
+body.dark, 
+.dark, 
+[data-theme="dark"] {
+  --background: 0 0% 4%; /* Near black zinc-950 */
+  --foreground: 0 0% 100%;
+  --card: 0 0% 9%;
+  --card-foreground: 0 0% 100%;
+  --popover: 0 0% 9%;
+  --popover-foreground: 0 0% 100%;
+  --primary: 186 100% 56%; /* Cyan for dark mode */
+  --primary-foreground: 0 0% 0%;
+  --secondary: 0 0% 16%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 0 0% 16%;
+  --muted-foreground: 0 0% 64%;
+  --accent: 0 0% 16%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 0 0% 20%;
+  --input: 0 0% 20%;
+  --ring: 186 100% 56%;
 }
 
 /* Icon color for dark mode */
@@ -76,12 +64,13 @@ html {
   scroll-behavior: smooth;
 }
 
-
 body {
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
-  font-family: Arial, Helvetica, sans-serif;
-  transition: background 0.2s, color 0.2s;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+  transition: background 0.3s ease, color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @layer utilities {

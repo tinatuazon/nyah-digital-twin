@@ -1,14 +1,14 @@
 {
   "meta": {
-    "title": "Cristina Tuazon | Senior Software Engineer",
-    "description": "Portfolio website showcasing software engineering expertise and innovative projects"
+    "title": "Nyah Ostonal | AI & Robotics Student",
+    "description": "Portfolio website showcasing AI, robotics projects and innovative student work"
   },
   "personal": {
-    "name": "Cristina Tuazon",
-    "title": "Full Stack Developer | Graphic Designer | Database Specialist",
+    "name": "Nyah Ostonal",
+    "title": "IT Student | AI & Robotics Specialist",
     "location": "Tuguegarao City, Cagayan Valley, Philippines",
-    "avatar": "/cristina_pfp.jpg",
-    "email": "wk.cristinatuazon@gmail.com",
+    "avatar": "/nyah_pfp.jpg",
+    "email": "nyah.ostonal@spup.edu.ph",
     "phone": "+63 (XXX) XXX-XXXX",
     "workingHours": "Monday - Friday, 9am - 6pm PHT",
     "availableForWork": true,
@@ -21,17 +21,17 @@
       },
       {
         "platform": "LinkedIn",
-        "url": "https://www.linkedin.com/in/cristina-tuazon/",
+        "url": "https://www.linkedin.com/in/nyah-ostonal/",
         "icon": "Linkedin"
       },
       {
         "platform": "Portfolio",
-        "url": "https://yourportfolio.com",
+        "url": "https://nyahostonal.com",
         "icon": "ExternalLink"
       },
       {
         "platform": "Email",
-        "url": "mailto:wk.cristinatuazon@gmail.com",
+        "url": "mailto:nyah.ostonal@spup.edu.ph",
         "icon": "Mail"
       }
     ]
@@ -65,20 +65,20 @@
       "href": "/"
     },
     {
-      "label": "Experience",
-      "href": "#experience"
-    },
-    {
-      "label": "Credentials",
-      "href": "#credentials"
+      "label": "Projects",
+      "href": "#projects"
     },
     {
       "label": "Skills",
       "href": "#skills"
     },
     {
-      "label": "Projects",
-      "href": "#projects"
+      "label": "About",
+      "href": "#about"
+    },
+    {
+      "label": "Contact",
+      "href": "#contact"
     },
     {
       "label": "AI Chat",

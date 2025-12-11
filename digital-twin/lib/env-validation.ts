@@ -50,12 +50,12 @@ export async function loadAndValidateEnv() {
   }
 
   if (!validation.isValid) {
-    console.error('❌ Environment Variable Errors:');
-    validation.errors.forEach(error => console.error(`  - ${error}`));
-    console.error('💡 Solution: Verify .env.local file exists and variables are properly set');
-    throw new Error('Missing required environment variables');
+    console.warn('⚠️ Environment Variable Errors (using fallback mode):');
+    validation.errors.forEach(error => console.warn(`  - ${error}`));
+    console.warn('💡 Running in fallback mode with JSON data only. For full RAG functionality, set environment variables.');
+  } else {
+    console.log('✅ All required environment variables are set');
   }
 
-  console.log('✅ All required environment variables are set');
   return validation;
 }

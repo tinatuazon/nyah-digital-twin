@@ -17,7 +17,7 @@ export type DigitalTwinQueryInput = {
 // Tool definition for MCP server
 export const digitalTwinQueryTool = {
   name: 'digital-twin-query',
-  description: 'Query Cristina Tuazon\'s professional digital twin to get answers about her background, skills, experience, and career goals for interview preparation',
+  description: 'Query Nyah Ostonal\'s digital twin to get answers about background, skills, projects, and interests in AI & Robotics',
   schema: digitalTwinQuerySchema
 } as const;
 

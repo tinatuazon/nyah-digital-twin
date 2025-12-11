@@ -53,27 +53,28 @@ export function PortfolioHeader() {
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-4 border-b border-gray-200 dark:border-border",
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-6",
         scrolled
-          ? "backdrop-blur-md shadow-md py-2 bg-white/95 text-gray-900 dark:bg-zinc-900/90 dark:text-foreground"
-          : "bg-transparent text-gray-900 dark:text-foreground border-transparent",
+          ? "backdrop-blur-md py-4 bg-white/80 dark:bg-zinc-950/80 border-b border-gray-200 dark:border-zinc-800"
+          : "bg-transparent border-b border-transparent",
       )}
     >
       <div className="container mx-auto px-4 flex items-center justify-between">
         {/* Logo/Name */}
         <Link href="/" className="flex items-center group">
-          <div className="text-transparent bg-clip-text bg-blue-600 dark:bg-[#22d3ee] font-bold text-xl relative overflow-hidden transition-transform duration-300 group-hover:scale-105">
-            {personalInfo.name}
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 dark:bg-[#22d3ee] transition-all duration-300 group-hover:w-full"></span>
+          <div className="flex items-center gap-2">
+            <div className="relative">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-cyan-400 dark:from-cyan-400 dark:to-blue-600 flex items-center justify-center transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">
+                <span className="font-bold text-lg text-white dark:text-black">N</span>
+              </div>
+            </div>
+            <span className="font-bold text-xl text-gray-900 dark:text-white">Nyah Ostonal</span>
           </div>
-          <span className="text-gray-600 dark:text-muted-foreground text-sm ml-2 hidden sm:inline-block transition-all duration-300 group-hover:text-gray-900 dark:group-hover:text-foreground">
-            / {personalInfo.title}
-          </span>
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-1">
-          <nav className="flex items-center space-x-1">
+        <div className="hidden md:flex items-center space-x-2">
+          <nav className="flex items-center space-x-8 mr-6">
             {navItems.map((item) => {
               const isSection = item.href.startsWith("#")
               const href = isSection ? `/${item.href}` : item.href
@@ -97,23 +98,15 @@ export function PortfolioHeader() {
                   key={item.label}
                   href={href}
                   className={cn(
-                    "px-3 py-2 text-sm relative group transition-all duration-300",
+                    "text-sm font-medium relative group transition-all duration-300",
                     isActive ? "text-blue-600 dark:text-[#22d3ee]" : "text-gray-600 dark:text-muted-foreground hover:text-blue-600 dark:hover:text-foreground",
                   )}
                   onClick={handleNavClick}
                 >
-                  <span className="relative z-10">{item.label}</span>
-
-                  {/* Hover effect - subtle background glow */}
-                  <span className="absolute inset-0 bg-blue-600/0 dark:bg-[#22d3ee]/0 rounded-md group-hover:bg-blue-600/10 dark:group-hover:bg-[#22d3ee]/10 transition-all duration-300"></span>
-
-                  {/* Hover effect - bottom border */}
-                  <span
-                    className={cn(
-                      "absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-blue-600 dark:bg-[#22d3ee] transition-all duration-300 group-hover:w-4/5",
-                      isActive && "w-4/5",
-                    )}
-                  ></span>
+                  <span className={cn(
+                    "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors",
+                    isActive && "text-gray-900 dark:text-white"
+                  )}>{item.label}</span>
                 </Link>
               )
             })}

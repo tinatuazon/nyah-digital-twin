@@ -322,24 +322,30 @@ async function generateResponseWithGroq(
         messages: [
           {
             role: 'system',
-            content: `You are Cristina Tuazon's AI digital twin. CRITICAL INSTRUCTIONS:
+            content: `You are Nyah Ostonal, a 4th-year IT student specializing in AI & Robotics at St. Paul University Philippines.
             
-            1. ONLY use information explicitly provided in the user's context
-            2. NEVER add, assume, or invent details not present in the provided information
-            3. If asked about something not in the context, clearly state "That's not mentioned in my profile"
-            4. Speak in first person as Cristina
-            5. Be concise but informative
-            6. Maintain a professional yet personable tone
-            7. If uncertain about any detail, acknowledge the limitation
+            YOUR COMMUNICATION STYLE:
+            - Professional yet personable and enthusiastic about your work
+            - Speak in first person: "I developed", "I'm learning", "my project"
+            - Show genuine interest in your field without being overly casual
+            - Balance confidence in your abilities with awareness that you're still learning
+            - Share both achievements and challenges in a professional manner
             
-            ACCURACY IS PARAMOUNT - stick to verified facts only.`
+            STRICT RULES (NEVER BREAK):
+            1. Use ONLY information explicitly provided in the context - never invent or assume details
+            2. If asked about something not in the context, respond professionally: "I haven't worked with that technology yet" or "That's not part of my experience so far"
+            3. You're a STUDENT with academic and project experience, not professional work experience
+            4. Keep responses concise (2-4 sentences) unless detail is clearly needed
+            5. Maintain professional tone while being approachable and genuine
+            
+            ACCURACY IS PARAMOUNT - only discuss verified facts from the provided context.`
           },
           {
             role: 'user',
             content: prompt
           }
         ],
-        temperature: 0.1, // Low temperature for consistency
+        temperature: 0.2, // Low temperature for consistency, slightly higher for personality
         max_tokens: 500,
         top_p: 0.9,
         frequency_penalty: 0.1,
@@ -400,7 +406,7 @@ async function generateResponseWithGroq(
 
 /**
  * Main RAG query function with comprehensive error handling, performance monitoring, and caching
- * @param question - User's question about Cristina's profile
+ * @param question - User's question about Nyah's profile
  * @returns Comprehensive result with success status, response, metadata, and performance metrics
  */
 export async function ragQuery(question: string): Promise<RAGQueryResult> {
@@ -456,8 +462,9 @@ export async function ragQuery(question: string): Promise<RAGQueryResult> {
     const envTimer = new Timer();
     envTimer.start();
     
+    let envValidation;
     try {
-      await Promise.race([
+      envValidation = await Promise.race([
         loadAndValidateEnv(),
         new Promise((_, reject) => 
           setTimeout(() => reject(new Error('Environment validation timeout')), 5000)
@@ -466,30 +473,25 @@ export async function ragQuery(question: string): Promise<RAGQueryResult> {
       
       const envDuration = envTimer.end();
       RAGLogger.performance('Environment validation', envDuration);
+      
+      // If env vars are missing, force fallback mode
+      if (!envValidation.isValid) {
+        RAGLogger.warn('Missing environment variables, using fallback mode');
+        vectorIndex = 'fallback_mode';
+      }
     } catch (envError) {
       const envDuration = envTimer.end();
-      RAGLogger.error('Environment validation failed', envError);
-      RAGLogger.performance('Environment validation (failed)', envDuration);
-      
-      return {
-        success: false,
-        response: 'System configuration error. Please contact support.',
-        mode: 'error',
-        error: createRAGError('ENV_VALIDATION_ERROR', 'Environment validation failed', envError),
-        metrics: { queryTime: overallTimer.end() }
-      };
+      RAGLogger.warn('Environment validation error, using fallback mode', envError);
+      RAGLogger.performance('Environment validation (fallback)', envDuration);
+      // Continue with fallback mode instead of failing
+      vectorIndex = 'fallback_mode';
     }
     
-    // Setup Groq client
+    // Setup Groq client (optional in fallback mode)
     const client = setupGroqClient();
-    if (!client) {
-      return {
-        success: false,
-        response: 'AI service is temporarily unavailable. Please try again later.',
-        mode: 'error',
-        error: createRAGError('GROQ_INIT_ERROR', 'Failed to initialize Groq client'),
-        metrics: { queryTime: overallTimer.end() }
-      };
+    if (!client && vectorIndex !== 'fallback_mode') {
+      RAGLogger.warn('Groq client unavailable, switching to fallback mode');
+      vectorIndex = 'fallback_mode';
     }
     
     // Setup vector database
@@ -650,25 +652,41 @@ export async function ragQuery(question: string): Promise<RAGQueryResult> {
     const llmTimer = new Timer();
     llmTimer.start();
     
-    const prompt = `You are answering as Cristina Tuazon.
+    let response: string;
+    let llmResponseTime = 0;
+    
+    if (client) {
+      const prompt = `You are Nyah Ostonal, a 4th-year IT student specializing in AI & Robotics. Respond professionally and informatively.
+
+COMMUNICATION GUIDELINES:
+- Be professional yet approachable and enthusiastic about your work
+- Speak in first person: "I developed", "I'm working on", "my experience"
+- Show genuine passion for your projects while maintaining professionalism
+- Share accomplishments and learning experiences in a balanced manner
+- Keep responses concise and focused on the question asked
 
 STRICT RULES:
-1. Use ONLY the facts listed below - do not add ANY other information
-2. Do not mention any technologies, frameworks, or experience not explicitly listed
-3. If something isn't listed below, say "That's not mentioned in my profile"
-4. Speak as Cristina in first person
-5. Be conversational but professional
-6. Keep responses concise and relevant
+1. Use ONLY facts from the context below - never add, assume, or invent information
+2. Only mention technologies, projects, and experiences explicitly listed in the context
+3. If information isn't in the context, respond: "I haven't worked with that yet" or "That's outside my current experience"
+4. You are a student with academic and project experience, not professional work experience
+5. Always respond in first person perspective
 
-VERIFIED FACTS FROM MY PROFILE:
+CONTEXT FROM PROFILE:
 ${context}
 
 QUESTION: ${sanitizedQuestion}
 
-ANSWER (using only the verified facts above):`;
-    
-    const response = await generateResponseWithGroq(client, prompt);
-    const llmResponseTime = llmTimer.end();
+RESPONSE (professional, informative, and grounded in the facts above):`;
+      
+      response = await generateResponseWithGroq(client, prompt);
+      llmResponseTime = llmTimer.end();
+    } else {
+      // Fallback to direct context when Groq is unavailable
+      RAGLogger.warn('Groq client unavailable, returning direct context');
+      response = `Here's what I found in my profile:\n\n${context}`;
+      llmResponseTime = llmTimer.end();
+    }
     
     const totalDuration = overallTimer.end();
     

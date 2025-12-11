@@ -23,7 +23,7 @@ export default function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: "Hi! I'm Cristina's AI digital twin. Ask me anything about her professional background, skills, experience, or projects!",
+      content: "Hello! 👋 I'm an AI-powered assistant trained on Nyah's portfolio. I can answer questions about her education, projects, technical expertise, and career interests. What would you like to know?",
       timestamp: new Date(),
     },
   ]);
@@ -89,47 +89,68 @@ export default function ChatPage() {
   };
 
   return (
-    <main className="min-h-screen bg-background dark:bg-[#18181b] text-foreground">
-      {/* Solid background - matching home page */}
-      <div className="fixed inset-0 bg-background dark:bg-[#18181b] z-0"></div>
+    <main className="min-h-screen bg-white dark:bg-zinc-950 text-foreground">
+      {/* Clean minimalist background */}
+      <div className="fixed inset-0 bg-white dark:bg-zinc-950 z-0"></div>
 
       {/* Header */}
       <PortfolioHeader />
 
-      <div className="relative z-10 container mx-auto p-3 sm:p-4 pt-20 sm:pt-24 pb-6 sm:pb-8">
-        {/* Chat Header */}
+      <div className="relative z-10 container mx-auto px-4 pt-32 pb-20">
+        {/* Chat Header - Redesigned Layout */}
         <AnimatedSection animation="fade-up">
-          <div className="mb-6">
-            <div className="flex items-center justify-between mb-4">
-              <Link href="/" className="flex items-center text-muted-foreground hover:text-foreground transition-colors group">
-                <ArrowLeft className="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1" />
-                <span>Back to Portfolio</span>
-              </Link>
-            </div>
+          <div className="mb-10">
+            <Link href="/" className="inline-flex items-center text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-cyan-400 transition-colors group mb-6">
+              <ArrowLeft className="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1" />
+              <span>Return to Home</span>
+            </Link>
             
-            <div className="flex items-center mb-2">
-              <div className="flex items-center mr-3">
-                <MessageCircle className="w-6 h-6 mr-2 text-primary" />
-                <Sparkles className="w-4 h-4 text-primary animate-pulse" />
+            <div className="grid md:grid-cols-2 gap-8 items-start">
+              <div className="space-y-3">
+                <h1 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white">Interactive Assistant</h1>
+                <p className="text-xl text-gray-600 dark:text-gray-400">Get instant answers about Nyah's portfolio, experience, and technical capabilities through AI.</p>
               </div>
-              <h1 className="text-2xl font-bold">Chat with Cristina's AI Twin</h1>
+              
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                  <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                  <span>Online and ready to help</span>
+                </div>
+                <div className="p-4 rounded-2xl bg-blue-50 dark:bg-zinc-800 border border-blue-100 dark:border-zinc-700">
+                  <p className="text-sm text-gray-700 dark:text-gray-300 mb-2 font-medium">Quick Start Topics:</p>
+                  <div className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
+                    <p>• Academic projects and research</p>
+                    <p>• AI & Robotics specialization</p>
+                    <p>• Technical skills & tools</p>
+                    <p>• Future career goals</p>
+                  </div>
+                </div>
+              </div>
             </div>
-            <p className="text-muted-foreground">Ask me anything about Cristina's professional background, skills, experience, or projects!</p>
           </div>
         </AnimatedSection>
 
-        {/* Chat Interface */}
+        {/* Chat Interface - New Design */}
         <AnimatedSection animation="fade-up" delay={100}>
-          <Card className="bg-card/70 border-border backdrop-blur-sm h-[calc(100vh-280px)] flex flex-col">
-            <CardHeader className="flex flex-row items-center justify-between p-4 border-b border-border flex-shrink-0">
-              <CardTitle className="text-lg flex items-center">
-                <MessageCircle className="w-5 h-5 mr-2 text-primary" />
-                AI Digital Twin
-              </CardTitle>
-              <div className="text-sm text-muted-foreground">
-                {messages.length} message{messages.length !== 1 ? 's' : ''}
-              </div>
-            </CardHeader>
+          <div className="grid md:grid-cols-[1fr_300px] gap-6">
+            {/* Main Chat Area */}
+            <Card className="bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-800 rounded-2xl shadow-md h-[600px] flex flex-col">
+              <CardHeader className="p-5 border-b border-gray-200 dark:border-zinc-800 flex-shrink-0">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="w-10 h-10 rounded-full bg-blue-600 dark:bg-cyan-400 flex items-center justify-center">
+                      <MessageCircle className="w-5 h-5 text-white dark:text-black" />
+                    </div>
+                    <div>
+                      <CardTitle className="text-base font-semibold text-gray-900 dark:text-white">Chat Session</CardTitle>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">{messages.length} messages</p>
+                    </div>
+                  </div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400">
+                    Powered by AI
+                  </div>
+                </div>
+              </CardHeader>
             
             <CardContent className="flex-1 flex flex-col p-0 min-h-0">
               {/* Messages */}
@@ -137,32 +158,43 @@ export default function ChatPage() {
                 {messages.map((message, index) => (
                   <div
                     key={index}
-                    className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
+                    className={`flex ${message.role === "user" ? "justify-end" : "justify-start"} gap-2`}
                   >
+                    {message.role === "assistant" && (
+                      <div className="w-8 h-8 rounded-full bg-cyan-400 dark:bg-cyan-500 flex items-center justify-center flex-shrink-0 mt-1">
+                        <Sparkles className="w-4 h-4 text-black" />
+                      </div>
+                    )}
                     <div
-                      className={`max-w-[80%] px-4 py-3 rounded-lg ${
+                      className={`max-w-[75%] px-4 py-3 rounded-2xl ${
                         message.role === "user"
-                          ? "bg-primary text-primary-foreground"
-                          : "bg-muted text-foreground border border-border"
+                          ? "bg-blue-600 text-white"
+                          : "bg-gray-100 dark:bg-zinc-800 text-gray-900 dark:text-white"
                       }`}
                     >
-                      <p className="whitespace-pre-wrap text-sm">{message.content}</p>
-                      <div className={`text-xs mt-2 ${
-                        message.role === "user" ? "text-primary-foreground/70" : "text-muted-foreground"
+                      <p className="whitespace-pre-wrap text-sm leading-relaxed">{message.content}</p>
+                      <div className={`text-xs mt-1.5 ${
+                        message.role === "user" ? "text-white/70" : "text-gray-500 dark:text-gray-400"
                       }`}>
-                        {message.timestamp.toLocaleTimeString()}
+                        {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </div>
                     </div>
                   </div>
                 ))}
                 
                 {isLoading && (
-                  <div className="flex justify-start">
-                    <div className="bg-muted border border-border px-4 py-3 rounded-lg">
-                      <div className="flex space-x-1">
-                        <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce"></div>
-                        <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: "0.1s" }}></div>
-                        <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
+                  <div className="flex justify-start gap-2">
+                    <div className="w-8 h-8 rounded-full bg-cyan-400 dark:bg-cyan-500 flex items-center justify-center flex-shrink-0 mt-1">
+                      <Sparkles className="w-4 h-4 text-black" />
+                    </div>
+                    <div className="bg-gray-100 dark:bg-zinc-800 px-4 py-3 rounded-2xl">
+                      <div className="flex items-center gap-1">
+                        <span className="text-sm text-gray-600 dark:text-gray-400">Thinking</span>
+                        <div className="flex space-x-1 ml-1">
+                          <div className="w-1 h-1 bg-gray-400 rounded-full animate-bounce"></div>
+                          <div className="w-1 h-1 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0.1s" }}></div>
+                          <div className="w-1 h-1 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -173,63 +205,71 @@ export default function ChatPage() {
               </div>
 
               {/* Input Form */}
-              <div className="p-4 border-t border-border flex-shrink-0">
-                <form onSubmit={sendMessage} className="mb-3">
+              <div className="p-5 border-t border-gray-200 dark:border-zinc-800 flex-shrink-0 bg-gray-50 dark:bg-zinc-800/50">
+                <form onSubmit={sendMessage}>
                   <div className="flex gap-2">
                     <Input
                       type="text"
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
-                      placeholder="Ask about Cristina's experience, skills, projects..."
-                      className="flex-1 bg-background border-border text-foreground placeholder-muted-foreground"
+                      placeholder="Type your question here..."
+                      className="flex-1 bg-white dark:bg-zinc-900 border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white placeholder-gray-400 rounded-xl h-11 px-4"
                       disabled={isLoading}
                     />
                     <Button
                       type="submit"
                       disabled={isLoading || !input.trim()}
-                      className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                      className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl h-11 px-5"
                     >
                       <Send className="w-4 h-4" />
                     </Button>
                   </div>
                 </form>
-
-                {/* Suggested Questions */}
-                <div className="space-y-2">
-                  <p className="text-muted-foreground text-sm">Suggested questions:</p>
-                  <div className="flex flex-wrap gap-2">
-                    {[
-                      "What is your experience with Laravel?",
-                      "Tell me about your thesis project",
-                      "What are your career goals?",
-                      "Describe your technical skills",
-                      "What projects have you worked on?"
-                    ].map((suggestion, index) => (
-                      <Button
-                        key={index}
-                        onClick={() => setInput(suggestion)}
-                        variant="outline"
-                        size="sm"
-                        className="text-xs h-7 bg-secondary/50 border-border text-secondary-foreground hover:bg-secondary"
-                        disabled={isLoading}
-                      >
-                        {suggestion}
-                      </Button>
-                    ))}
-                  </div>
-                </div>
               </div>
             </CardContent>
           </Card>
+
+          {/* Sidebar with Suggestions */}
+          <div className="space-y-6">
+            <Card className="bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-800 rounded-2xl shadow-md p-5">
+              <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">Example Questions</h3>
+              <div className="space-y-2">
+                {[
+                  "Which robotics frameworks do you use?",
+                  "Explain your object detection project",
+                  "What's your academic focus?",
+                  "How did you learn AI development?",
+                  "What tools do you work with?"
+                ].map((suggestion, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setInput(suggestion)}
+                    disabled={isLoading}
+                    className="w-full text-left p-3 text-sm text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-zinc-800 hover:bg-gray-100 dark:hover:bg-zinc-700 rounded-xl transition-colors border border-transparent hover:border-blue-600 dark:hover:border-cyan-400"
+                  >
+                    {suggestion}
+                  </button>
+                ))}
+              </div>
+            </Card>
+
+            <Card className="bg-blue-50 dark:bg-zinc-800 border-blue-100 dark:border-zinc-700 rounded-2xl shadow-md p-5">
+              <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">💡 Pro Tip</h3>
+              <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
+                For the most detailed responses, ask specific questions about projects, technologies, or learning experiences.
+              </p>
+            </Card>
+          </div>
+        </div>
         </AnimatedSection>
 
         {/* Footer */}
         <AnimatedSection
           animation="fade-in"
           delay={200}
-          className="mt-8 sm:mt-12 py-4 sm:py-6 text-center text-xs sm:text-sm text-muted-foreground"
+          className="mt-12 py-8 text-center text-sm text-gray-600 dark:text-gray-400"
         >
-          <p>© {new Date().getFullYear()} Cristina Tuazon. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Nyah Ostonal. All rights reserved.</p>
         </AnimatedSection>
       </div>
     </main>

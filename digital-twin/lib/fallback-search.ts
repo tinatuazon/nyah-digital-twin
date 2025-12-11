@@ -12,24 +12,38 @@ export async function fallbackSearch(question: string): Promise<string[]> {
   const questionLower = question.toLowerCase();
   const relevantSections: string[] = [];
   
+  // Check prepared Q&A first for exact or close matches
+  if ((profileData as any).chatbot_qa?.prepared_questions) {
+    const preparedQA = (profileData as any).chatbot_qa.prepared_questions;
+    for (const qa of preparedQA) {
+      const qaQuestionLower = qa.question.toLowerCase();
+      // Check if the question is similar (contains key words)
+      const questionWords = questionLower.split(' ').filter(w => w.length > 3);
+      const matchCount = questionWords.filter(word => qaQuestionLower.includes(word)).length;
+      if (matchCount >= 2 || questionLower.includes(qaQuestionLower.substring(0, 15))) {
+        relevantSections.push(`Q: ${qa.question}\nA: ${qa.answer}`);
+      }
+    }
+  }
+  
   // Search in different sections based on keywords
   if (containsKeywords(questionLower, ['experience', 'work', 'job', 'company', 'freelance'])) {
     addExperienceInfo(profileData, relevantSections);
   }
   
-  if (containsKeywords(questionLower, ['skills', 'technical', 'programming', 'technology', 'languages', 'frameworks'])) {
+  if (containsKeywords(questionLower, ['skills', 'technical', 'programming', 'technology', 'languages', 'frameworks', 'tools', 'stack'])) {
     addSkillsInfo(profileData, relevantSections);
   }
   
-  if (containsKeywords(questionLower, ['project', 'portfolio', 'built', 'developed'])) {
+  if (containsKeywords(questionLower, ['project', 'portfolio', 'built', 'developed', 'robot', 'chatbot', 'detection', 'gesture'])) {
     addProjectsInfo(profileData, relevantSections);
   }
   
-  if (containsKeywords(questionLower, ['goal', 'career', 'future', 'learning'])) {
+  if (containsKeywords(questionLower, ['goal', 'career', 'future', 'learning', 'path', 'focus'])) {
     addCareerGoalsInfo(profileData, relevantSections);
   }
   
-  if (containsKeywords(questionLower, ['education', 'university', 'degree', 'school'])) {
+  if (containsKeywords(questionLower, ['education', 'university', 'degree', 'school', 'academic', 'student', 'coursework'])) {
     addEducationInfo(profileData, relevantSections);
   }
   
@@ -59,39 +73,45 @@ function addExperienceInfo(profileData: ProfileData, sections: string[]): void {
 }
 
 function addSkillsInfo(profileData: ProfileData, sections: string[]): void {
-  const skills = profileData.skills.technical;
-  
-  // Programming languages
-  const progLangs = skills.programming_languages?.map(lang => 
-    `${lang.language} (${lang.proficiency} - ${lang.years} years)`
-  ) || [];
-  
-  // Backend frameworks
-  const frameworks = skills.backend_frameworks?.map(fw =>
-    `${fw.framework} (versions: ${fw.versions_used?.join(', ') || ''})`
-  ) || [];
-  
-  // Databases
-  const databases = skills.databases?.map(db =>
-    `${db.database} (${db.proficiency} - ${db.years} years)`
-  ) || [];
-  
-  // Frontend technologies
-  const frontendTech = skills.frontend_technologies?.map(tech =>
-    `${tech.technology || tech.language || ''} (${tech.proficiency} - ${tech.years} years)`
-  ) || [];
-  
-  if (progLangs.length > 0) {
-    sections.push(`Programming Languages: ${progLangs.join(', ')}`);
-  }
-  if (frameworks.length > 0) {
-    sections.push(`Backend Frameworks: ${frameworks.join(', ')}`);
-  }
-  if (databases.length > 0) {
-    sections.push(`Databases: ${databases.join(', ')}`);
-  }
-  if (frontendTech.length > 0) {
-    sections.push(`Frontend Technologies: ${frontendTech.join(', ')}`);
+  // Handle both professional and student data structures
+  if (profileData.skills?.technical) {
+    const skills = profileData.skills.technical;
+    
+    // Programming languages
+    const progLangs = skills.programming_languages?.map(lang => 
+      `${lang.language} (${lang.proficiency} - ${lang.years} years)`
+    ) || [];
+    
+    // Backend frameworks
+    const frameworks = skills.backend_frameworks?.map(fw =>
+      `${fw.framework} (versions: ${fw.versions_used?.join(', ') || ''})`
+    ) || [];
+    
+    // Databases
+    const databases = skills.databases?.map(db =>
+      `${db.database} (${db.proficiency} - ${db.years} years)`
+    ) || [];
+    
+    // Frontend technologies
+    const frontendTech = skills.frontend_technologies?.map(tech =>
+      `${tech.technology || tech.language || ''} (${tech.proficiency} - ${tech.years} years)`
+    ) || [];
+    
+    if (progLangs.length > 0) {
+      sections.push(`Programming Languages: ${progLangs.join(', ')}`);
+    }
+    if (frameworks.length > 0) {
+      sections.push(`Backend Frameworks: ${frameworks.join(', ')}`);
+    }
+    if (databases.length > 0) {
+      sections.push(`Databases: ${databases.join(', ')}`);
+    }
+    if (frontendTech.length > 0) {
+      sections.push(`Frontend Technologies: ${frontendTech.join(', ')}`);
+    }
+  } else if (profileData.career_goals?.learning_focus) {
+    // Student data - use learning focus as skills indicator
+    sections.push(`Technical Skills & Learning Focus: ${profileData.career_goals.learning_focus.join(', ')}`);
   }
 }
 
