@@ -462,14 +462,14 @@ export async function ragQuery(question: string): Promise<RAGQueryResult> {
     const envTimer = new Timer();
     envTimer.start();
     
-    let envValidation;
+    let envValidation: { isValid: boolean; errors: string[]; warnings: string[] };
     try {
       envValidation = await Promise.race([
         loadAndValidateEnv(),
         new Promise((_, reject) => 
           setTimeout(() => reject(new Error('Environment validation timeout')), 5000)
         )
-      ]);
+      ]) as { isValid: boolean; errors: string[]; warnings: string[] };
       
       const envDuration = envTimer.end();
       RAGLogger.performance('Environment validation', envDuration);
